@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alap-webapp
+  namespace: cloudproject
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alap-webapp
+  template:
+    metadata:
+      labels:
+        app: alap-webapp
+    spec:
+      containers:
+        - name: app
+          image: whyxn/alap-webapp:build-0002
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
